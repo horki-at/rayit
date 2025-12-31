@@ -1,24 +1,15 @@
-/*
- * Version 0.0.1 - implemented logging (31/12/2025, @horki-at)
- */
-
-#include "logger.hh"
+#include "core/logger.hh"
 using namespace rt;
 
 #include <string>
 #include <iostream>
-#include <fstream>
 using namespace std;
 
 int main() try
 {
-  ofstream stream("report.log");
-  if (not stream)
-    throw "cannot open stream."s;
+  Logger::initialize(cout);
 
-  Logger::initialize(stream, true);
-
-  Logger::fatal("this is a fatal message.");
+  Logger::fatal("this is a fatal message. {} {}", 1.2, " hello world");
   Logger::error("this is a error message.");
   Logger::warning("this is a warning message.");
   Logger::info("this is a info message.");

@@ -5,11 +5,24 @@
 #include <iostream>
 #include <print>
 #include <source_location>
+#include <string_view>
 
 // TODO: make Logger thread safe
 // TODO: make Logger also output timestamp
 namespace rt
 {
+  /// Stores information needed for message formatting.
+  template <typename ...Args>
+  struct LogMessage
+  {
+    std::format_string<Args...> msg;
+    std::source_location loc;
+
+    template <typename T>
+    consteval LogMessage(T const &msg, std::source_location loc
+                         = std::source_location::current());
+  };
+  
   class Logger final
   {
     enum Level { FATAL, ERROR, WARNING, INFO, DEBUG, TRACE };
@@ -23,28 +36,23 @@ namespace rt
     static bool verbose();
 
     template <typename ...Args>
-    static void fatal(std::format_string<Args...> messageFmt, Args &&...args,
-                      std::source_location loc = std::source_location::current());
-
+    static void fatal(std::type_identity_t<LogMessage<Args...>> msg,
+                      Args &&...args);
     template <typename ...Args>
-    static void error(std::format_string<Args...> messageFmt, Args &&...args,
-                      std::source_location loc = std::source_location::current());
-
+    static void error(std::type_identity_t<LogMessage<Args...>> msg,
+                      Args &&...args);
     template <typename ...Args>
-    static void warning(std::format_string<Args...> messageFmt, Args &&...args,
-                        std::source_location loc = std::source_location::current());
-
+    static void warning(std::type_identity_t<LogMessage<Args...>> msg,
+                        Args &&...args);
     template <typename ...Args>
-    static void info(std::format_string<Args...> messageFmt, Args &&...args,
-                     std::source_location loc = std::source_location::current());
-
+    static void info(std::type_identity_t<LogMessage<Args...>> msg,
+                     Args &&...args);
     template <typename ...Args>
-    static void debug(std::format_string<Args...> messageFmt, Args &&...args,
-                      std::source_location loc = std::source_location::current());
-    
+    static void debug(std::type_identity_t<LogMessage<Args...>> msg,
+                      Args &&...args);
     template <typename ...Args>
-    static void trace(std::format_string<Args...> messageFmt, Args &&...args,
-                      std::source_location loc = std::source_location::current());
+    static void trace(std::type_identity_t<LogMessage<Args...>> msg,
+                      Args &&...args);
 
   private:
     Logger() = default;
@@ -57,9 +65,7 @@ namespace rt
     static std::ostream &stream();
     
     template <typename ...Args>
-    static void log(Level level, std::format_string<Args...> messageFmt,
-                    Args &&...args,
-                    std::source_location loc = std::source_location::current());
+    static void log(Level level, LogMessage<Args...>, Args &&...args);
 
     static char const *getLevelString(Level level);
   };
