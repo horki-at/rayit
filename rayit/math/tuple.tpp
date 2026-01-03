@@ -27,7 +27,7 @@ namespace rt
   {
     if (not factor)             // factor is zero => division by zero 
       throw std::invalid_argument("division of a tuple by 0");
-    
+
     std::transform(begin(), end(), begin(),
                    [factor](Type &el)
                    {

@@ -22,7 +22,7 @@ namespace rt
     consteval LogMessage(T const &msg, std::source_location loc
                          = std::source_location::current());
   };
-  
+
   class Logger final
   {
     enum Level { FATAL, ERROR, WARNING, INFO, DEBUG, TRACE };
@@ -36,23 +36,17 @@ namespace rt
     static bool verbose();
 
     template <typename ...Args>
-    static void fatal(std::type_identity_t<LogMessage<Args...>> msg,
-                      Args &&...args);
+    static void fatal(std::type_identity_t<LogMessage<Args...>> msg, Args &&...args);
     template <typename ...Args>
-    static void error(std::type_identity_t<LogMessage<Args...>> msg,
-                      Args &&...args);
+    static void error(std::type_identity_t<LogMessage<Args...>> msg, Args &&...args);
     template <typename ...Args>
-    static void warning(std::type_identity_t<LogMessage<Args...>> msg,
-                        Args &&...args);
+    static void warning(std::type_identity_t<LogMessage<Args...>> msg, Args &&...args);
     template <typename ...Args>
-    static void info(std::type_identity_t<LogMessage<Args...>> msg,
-                     Args &&...args);
+    static void info(std::type_identity_t<LogMessage<Args...>> msg, Args &&...args);
     template <typename ...Args>
-    static void debug(std::type_identity_t<LogMessage<Args...>> msg,
-                      Args &&...args);
+    static void debug(std::type_identity_t<LogMessage<Args...>> msg, Args &&...args);
     template <typename ...Args>
-    static void trace(std::type_identity_t<LogMessage<Args...>> msg,
-                      Args &&...args);
+    static void trace(std::type_identity_t<LogMessage<Args...>> msg, Args &&...args);
 
   private:
     Logger() = default;

@@ -9,6 +9,12 @@ namespace rt
   }
 
   template <Arithmetic Type, size_t Dim, template <Arithmetic, size_t> class Derived>
+  inline std::array<Type, Dim> const &Tuple<Type, Dim, Derived>::data() const
+  {
+    return d_data;
+  }
+
+  template <Arithmetic Type, size_t Dim, template <Arithmetic, size_t> class Derived>
   inline Tuple<Type, Dim, Derived>::iterator Tuple<Type, Dim, Derived>::begin()
   {
     return d_data.begin();

@@ -34,20 +34,21 @@ namespace rt
     
   public:                       // constructors
     Tuple() = default;
-
-    template <Arithmetic ...Data>
-    requires (sizeof...(Data) == Dim)
-    Tuple(Data &&...data);
-
     Tuple(Tuple const &) = default;
     Tuple(Tuple &&) = default;
     Tuple &operator=(Tuple const &) = default;
     Tuple &operator=(Tuple &&) = default;
 
+    template <Arithmetic ...Data>
+    requires (sizeof...(Data) == Dim)
+    Tuple(Data &&...data);
+
     void swap(Tuple &other) noexcept;
-    virtual ~Tuple() = default;
+    ~Tuple() = default;         // NOTE: no virtual => no vtable for performance
 
   public:
+    std::array<Type, Dim> const &data() const;
+
     iterator begin();
     const_iterator begin() const;
     iterator end();
@@ -59,7 +60,7 @@ namespace rt
     template <Arithmetic RhsType, template <Arithmetic, size_t> class Rhs>
     requires TupleCanAdd<Derived, Rhs>::value
     Derived<Type, Dim> &operator+=(Rhs<RhsType, Dim> rhs);
-    
+
     template <Arithmetic RhsType, template <Arithmetic, size_t> class Rhs>
     requires TupleCanSub<Derived, Rhs>::value
     Derived<Type, Dim> &operator-=(Rhs<RhsType, Dim> rhs);
@@ -95,11 +96,11 @@ namespace rt
   template <Arithmetic Type, size_t Dim> class Point;
   template <Arithmetic Type, size_t Dim> class Normal;
 
-                                // which tuple-derived class can ADD with each other
+  // which tuple-derived class can ADD with each other
   template <> struct TupleCanAdd<Vector, Vector> : std::true_type {}; // V + V => V
   template <> struct TupleCanAdd<Point, Vector> : std::true_type {};  // P + V => P
   template <> struct TupleCanAdd<Point, Normal> : std::true_type {};  // P + N => P
-                                // which tuple-derived class can SUB with each other
+  // which tuple-derived class can SUB with each other
   template <> struct TupleCanSub<Vector, Vector> : std::true_type {}; // V - V => V
   template <> struct TupleCanSub<Point, Vector> : std::true_type {}; // P - V => P
   template <> struct TupleCanSub<Point, Normal> : std::true_type {}; // P - N => P

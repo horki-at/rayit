@@ -2,6 +2,7 @@
 #define INCLUDED_POINT_
 
 #include "tuple.hh"
+#include "vector.hh"
 
 namespace rt
 {
