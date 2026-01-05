@@ -1,4 +1,4 @@
-#include "logger.hh"
+#include "logger.h"
 using namespace rt;
 
 #include <stdexcept>

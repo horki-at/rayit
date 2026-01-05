@@ -1,7 +1,5 @@
 # Description
 
-operator= in Tuple class
-
 Features:
 - [ ] Static image generation. 
 - [ ] CPU/GPU switch to utilize all the computation power of the computer.

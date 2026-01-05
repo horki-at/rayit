@@ -26,7 +26,7 @@ endif
 
 BUILD_DIR := build/$(BUILD_TYPE)
 TARGET := $(BUILD_DIR)/rayit
-TARGET_SOURCES := $(wildcard *.cc */*.cc)
+TARGET_SOURCES := $(wildcard *.cc)
 TARGET_OBJECTS := $(addprefix $(BUILD_DIR)/,$(notdir $(TARGET_SOURCES:.cc=.o)))
 TARGET_DEPS    := $(TARGET_OBJECTS:.o=.o.dep)
 
